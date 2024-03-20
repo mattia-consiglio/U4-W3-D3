@@ -5,11 +5,11 @@ import jakarta.persistence.EntityTransaction;
 import mattiaconsiglio.entities.Evento;
 import mattiaconsiglio.exceptions.EventNotFoundException;
 
-public class EventoDAO {
+public class EventiDAO {
     // DAO (Data Access Object)
     private EntityManager em;
 
-    public EventoDAO(EntityManager em) {
+    public EventiDAO(EntityManager em) {
         this.em = em;
     }
 

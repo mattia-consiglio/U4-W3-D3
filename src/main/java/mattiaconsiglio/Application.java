@@ -3,10 +3,13 @@ package mattiaconsiglio;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import mattiaconsiglio.dao.EventoDAO;
+import mattiaconsiglio.dao.EventiDAO;
+import mattiaconsiglio.dao.LocationsDAO;
 import mattiaconsiglio.entities.Evento;
+import mattiaconsiglio.entities.Location;
 import mattiaconsiglio.entities.TipoEvento;
 import mattiaconsiglio.exceptions.EventNotFoundException;
+import mattiaconsiglio.exceptions.RecordNotFoundException;
 
 import java.time.LocalDate;
 
@@ -15,9 +18,24 @@ public class Application {
 
     public static void main(String[] args) {
         EntityManager em = emf.createEntityManager();
-        EventoDAO ed = new EventoDAO(em);
 
-        Evento evento1 = new Evento("test", LocalDate.now(), "descrizione", TipoEvento.PRIVATO, 10);
+        //create location
+        Location location = new Location("location1", "citta1");
+
+        LocationsDAO ld = new LocationsDAO(em);
+        ld.save(location);
+
+        EventiDAO ed = new EventiDAO(em);
+
+        try {
+            Location locationGet = ld.getById(1);
+        } catch (RecordNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
+        //create some events
+
+        Evento evento1 = new Evento("test", LocalDate.now(), "descrizione", TipoEvento.PRIVATO, 10, locationGet);
         Evento evento2 = new Evento("test1", LocalDate.now(), "descrizione1", TipoEvento.PUBBLICO, 10);
         Evento evento3 = new Evento("test2", LocalDate.now(), "descrizione2", TipoEvento.PRIVATO, 10);
 
